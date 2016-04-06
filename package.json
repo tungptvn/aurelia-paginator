@@ -57,7 +57,7 @@
   },
   "jspm": {
     "registry": "npm",
-    "main": "index",
+    "main": "dist/index",
     "directories": {
         "lib": "dist/"
     },
