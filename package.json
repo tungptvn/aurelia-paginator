@@ -1,0 +1,60 @@
+{
+  "name": "aurelia-paginator",
+  "version": "1.0.0",
+  "description": "A Aurelia plugin",
+  "main": "dist/aurelia-paginator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "https://github.com/tungptvn/aurelia-paginator.git#readme",
+  "bugs": {
+    "url": "https://github.com/tungptvn/aurelia-paginator.git/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tungptvn/aurelia-paginator.git"
+  },
+  "keywords": [
+    "pagination",
+    "aurelia",
+    "paging"
+  ],
+  "author": "Tung PT <tungpt.hd@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "aurelia-tools": "^0.1.16",
+    "babel-eslint": "^4.1.6",
+    "conventional-changelog": "^0.5.1",
+    "del": "^2.1.0",
+    "fs": "0.0.2",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-bump": "^1.0.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-insert": "^0.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-yuidoc": "^0.1.2",
+    "jspm": "^0.16.15",
+    "object.assign": "^4.0.3",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.5",
+    "through2": "^2.0.0",
+    "vinyl-paths": "^2.1.0",
+    "yargs": "^3.30.0"
+  },
+  "jspm": {
+    "main": "aurelia-paginatior",
+    "directories": {
+      "lib": "dist/system"
+    },
+    "dependencies": {
+		"aurelia-framework": "npm:aurelia-framework@^1.0.0-beta.1.1.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}
