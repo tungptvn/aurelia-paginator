@@ -59,10 +59,10 @@
     "registry": "npm",
     "main": "index",
     "directories": {
-      "dist": "dist"
+        "lib": "dist/"
     },
     "dependencies": {
-      "aurelia-framework": "npm:aurelia-framework@^1.0.0-beta.1.1.0"      
+      "aurelia-framework": "npm:aurelia-framework@^1.0.0-beta.1.1.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
