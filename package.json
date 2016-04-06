@@ -56,8 +56,7 @@
     "yargs": "^2.1.1"
   },
   "jspm": {
-    "registry": "npm",
-    "main": "dist/index",
+    "main": "aurelia-paginator",
     "directories": {
         "lib": "dist/"
     },
