@@ -34,7 +34,7 @@ System.config({
     "fetch": "github:github/fetch@0.10.1",
     "font-awesome": "npm:font-awesome@4.5.0",
     "text": "github:systemjs/plugin-text@0.0.3",
-    "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@0.0.0",
+    "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@0.0.1",
     "github:donnelljenkins/aurelia-pagination@0.1.1": {
       "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.3.1",
       "aurelia-templating": "npm:aurelia-templating@1.0.0-beta.1.2.1"
@@ -53,6 +53,10 @@ System.config({
     },
     "github:tungptvn/aurelia-paginator@0.0.0": {
       "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.2.1"
+    },
+    "github:tungptvn/aurelia-paginator@0.0.1": {
+      "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.2.1",
+      "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@0.0.0"
     },
     "github:twbs/bootstrap@3.3.6": {
       "jquery": "github:components/jquery@2.2.1"
