@@ -9,20 +9,8 @@ A pagination plugin for [Aurelia](http://aurelia.io)
 Go into your project and verify it's already `npm install`'ed and `jspm install`'ed. Now execute following command to install the plugin via JSPM:
 
 ```
-jspm install aurelia-validation
+jspm install github:tungptvn/aurelia-paginator
 ```
-
-this will add the plugin into your `jspm_packages` folder as well as an mapping-line into your `config.js` as:
-
-```
-"aurelia-validation": "github:aurelia-validation@X.X.X",
-```
-
-If you're feeling experimental or cannot wait for the next release, you could also install the latest version by executing:
-```
-jspm install aurelia-validation=github:aurelia/validation@master
-```
-
 
 #### Migrate from aurelia-app to aurelia-app="main"
 You'll need to register the plugin when your aurelia app is bootstrapping. If you have an aurelia app because you cloned a sample, there's a good chance that the app is bootstrapping based on default conventions. In that case, open your **index.html** file and look at the *body* tag.
