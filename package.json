@@ -29,7 +29,8 @@
       "dist": "dist/amd"
     },
     "dependencies": {
-      "aurelia-framework": "^1.0.0-beta.1.1.0"      
+      "aurelia-framework": "^1.0.0-beta.1.1.0",
+      "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@^0.1.2"
     },
     "devDependencies": {
       "aurelia-pal-browser": "^1.0.0-beta.1.1.2",

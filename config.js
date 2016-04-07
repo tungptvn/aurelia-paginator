@@ -25,7 +25,7 @@ System.config({
     "core-js": "npm:core-js@2.0.3",
     "traceur": "github:jmcriffey/bower-traceur@0.0.91",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.91",
-    "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@0.1.0",
+    "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@0.1.2",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -38,7 +38,7 @@ System.config({
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
     },
-    "github:tungptvn/aurelia-paginator@0.1.0": {
+    "github:tungptvn/aurelia-paginator@0.1.2": {
       "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.2.1"
     },
     "npm:assert@1.3.0": {

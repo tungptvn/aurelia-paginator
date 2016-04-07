@@ -2,7 +2,64 @@
 
 A pagination plugin for [Aurelia](http://aurelia.io)
 
+# Installation
 
+
+#### Install via JSPM
+Go into your project and verify it's already `npm install`'ed and `jspm install`'ed. Now execute following command to install the plugin via JSPM:
+
+```
+jspm install aurelia-validation
+```
+
+this will add the plugin into your `jspm_packages` folder as well as an mapping-line into your `config.js` as:
+
+```
+"aurelia-validation": "github:aurelia-validation@X.X.X",
+```
+
+If you're feeling experimental or cannot wait for the next release, you could also install the latest version by executing:
+```
+jspm install aurelia-validation=github:aurelia/validation@master
+```
+
+
+#### Migrate from aurelia-app to aurelia-app="main"
+You'll need to register the plugin when your aurelia app is bootstrapping. If you have an aurelia app because you cloned a sample, there's a good chance that the app is bootstrapping based on default conventions. In that case, open your **index.html** file and look at the *body* tag.
+``` html
+<body aurelia-app>
+```
+Change the *aurelia-app* attribute to *aurelia-app="main"*.
+``` html
+<body aurelia-app="main">
+```
+The aurelia framework will now bootstrap the application by looking for your **main.js** file and executing the exported *configure* method. Go ahead and add a new **main.js** file with these contents:
+``` javascript
+export function configure(aurelia) {
+  aurelia.use
+    .standardConfiguration()
+    .developmentLogging();
+
+  aurelia.start().then(a => a.setRoot('app', document.body));
+}
+
+```
+
+#### Load the plugin
+During bootstrapping phase, you can now include the validation plugin:
+
+``` javascript
+export function configure(aurelia) {
+  aurelia.use
+    .standardConfiguration()
+    .developmentLogging()
+    .plugin('tungptvn/aurelia-paginator'); //Add this line to load the plugin
+
+  aurelia.start().then(a => a.setRoot('app', document.body));
+}
+```
+# Use :
+ViewModel (.js)
 
 ``` javascript
 export class TestPagination{
@@ -20,7 +77,6 @@ Use in view
 
 ``` html
 
-form action="">
   <div class="form-group">
     <label for="">input item-per-page</label>
     <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage"> ${itemperpage}
