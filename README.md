@@ -1,86 +1,43 @@
-# aurelia-validation
+# aurelia-paginator
 
-[![Join the chat at https://gitter.im/aurelia/discuss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/aurelia/discuss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+A pagination plugin for [Aurelia](http://aurelia.io)
 
-A validation plugin for [Aurelia](http://aurelia.io) that uses a fluent API.
+
 
 ``` javascript
-this.validation = validation.on(this)
-                      .ensure('awesomeLevel')
-                            .isGreaterThan(9000)
-                      .ensure('readMe')
-                            .isNotEmpty()
-                            .hasMinLength(5)
-                      .ensure('usage')
-                            .isEqualTo('simple');
+export class TestPagination{
+    constructor() {
+      this.current=1;
+      this.total=1234;
+      this.itemperpage=15;
+
+    }
+
+}
+
+```
+Use in view
+
+``` html
+
+form action="">
+  <div class="form-group">
+    <label for="">input item-per-page</label>
+    <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage"> ${itemperpage}
+  </div>
+</form>
+<pagination  total.bind="total" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
+${current}
+
 ```
 
-> To keep up to date on [Aurelia](http://www.aurelia.io/), please visit and subscribe to [the official blog](http://blog.durandal.io/). If you have questions, we invite you to join us on [our Gitter Channel](https://gitter.im/aurelia/discuss).
-
 ##Documentation
-*Important note*: both the documentation and the samples reflect the latest version of the sources, not the latest released version!
-Watch the [live samples](http://aurelia.io/validation/). (Work-in-progress)
-
-- [Installing the plugin](https://github.com/aurelia/validation/blob/master/doc/Intro.md#installation)
-- [Getting started](https://github.com/aurelia/validation/blob/master/doc/Intro.md#getting-started)
-- [Validation types](https://github.com/aurelia/validation/blob/master/doc/Intro.md#validation-types)
-  - [isNotEmpty()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#notempty)
-  - [containsNoSpaces()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsnospaces)
-  - [containsOnly(regex)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlyregex)
-  - [containsOnlyAlpha()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlyalpha)
-  - [containsOnlyAlphaOrWhitespace()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlyalphaorwhitespace)
-  - [containsOnlyAlphanumerics()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlyalphanumerics)
-  - [containsOnlyAlphanumericsOrWhitespace()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlyalphanumericsorwhitespace)
-  - [containsOnlyDigits()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlydigits)
-  - [containsOnlyLetters()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlyletters)
-  - [containsOnlyLettersOrWhitespace()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#containsonlylettersorwhitespace)
-  - [hasLengthBetween(minLength, maxLength)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#haslengthbetweenminimumvalue-maximumvalue)
-  - [hasMinLength(minLength)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#hasminlengthminimumlength)
-  - [hasMaxLength(maxLength)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#hasmaxlengthmaximumlength)
-  - [isBetween(minValue, maxValue)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isbetweenminvalue-maxvalue)
-  - [isEmail()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isemail)
-  - [isEqualTo(otherValue, otherValueLabel)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isequaltoothervalue-othervaluelabel)
-  - [isGreaterThan(minValue)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isgreaterthanminvalue)
-  - [isGreaterThanOrEqualTo(minValue)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isgreaterthanorequaltominvalue)
-  - [isLessThan(maxValue)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#islessthanmaxvalue)
-  - [isLessThanOrEqualTo(maxValue)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#islessthanorequaltomaxvalue)
-  - [isIn(collection)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isincollection)
-  - [isNumber()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isnumber)
-  - [isStrongPassword(minimumComplexityLevel)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isstrongpasswordminimumcomplexitylevel)
-  - [isURL()](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isurl)
-  - [isNotEqualTo(otherValue, otherValueLabel)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#isnotequaltoothervalue-othervaluelabel)
-  - [matches(regex)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#matchesregex)
-  - [passes(customFunction, threshold)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#passescustomfunction-threshold)
-  - [passesRule(validationRule)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#passesrulevalidationrule)
-  - [withMessage(message)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#withmessagemessage)
-- [Logical Operators](https://github.com/aurelia/validation/blob/master/doc/Intro.md#logical-operators)
-  - [if(conditionalExpression)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#ifconditionalexpression)
-  - [switch(conditionalExpression)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#switchconditionalexpression)
-- [onValidate(validationCallback, failureCallback)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#onvalidatevalidationcallback-failurecallback)
-- [Alternative validation setup](https://github.com/aurelia/validation/blob/master/doc/Intro.md#alternative-validation-setup)
-  - [The @ensure decorator](https://github.com/aurelia/validation/blob/master/doc/Intro.md#the-ensure-decorator)
-  - [Breeze (.onBreezeEntity(entity))](https://github.com/aurelia/validation/blob/master/doc/Intro.md#breeze-onbreezeentityentity)
-- [I18N](https://github.com/aurelia/validation/blob/master/doc/Intro.md#i18n)
-- [Custom Validation](https://github.com/aurelia/validation/blob/master/doc/Intro.md#custom-validation)
-- [Visualization (Validate custom attribute) ](https://github.com/aurelia/validation/blob/master/doc/Intro.md#visualization-validatecustomattribute)
-  - [Basic Usage](https://github.com/aurelia/validation/blob/master/doc/Intro.md#basic-usage-2)
-  - [Visual clues and customization](https://github.com/aurelia/validation/blob/master/doc/Intro.md#visual-clues-and-customization)
-  - [How are elements and validation rules matched](https://github.com/aurelia/validation/blob/master/doc/Intro.md#how-are-elements-and-validation-rules-matched)
-  - [Preventing form submission](https://github.com/aurelia/validation/blob/master/doc/Intro.md#preventing-form-submission)
-- [ValidationResult](https://github.com/aurelia/validation/blob/master/doc/Intro.md#validationresult)
-- [Configuration](https://github.com/aurelia/validation/blob/master/doc/Intro.md#configuration)
-  - [One config to rule them all](https://github.com/aurelia/validation/blob/master/doc/Intro.md#one-config-to-rule-them-all)
-  - [config.useDebounceTimeout(timeout)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#configusedebouncetimeoutdebouncetimeout)
-  - [config.computedFrom(dependencies)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#configcomputedfromarrayofbindingpaths)
-  - [config.useLocale(locale)](https://github.com/aurelia/validation/blob/master/doc/Intro.md#configuselocalelocaleidentifier)
-  - [config.useViewStrategy](https://github.com/aurelia/validation/blob/master/doc/Intro.md#configuseviewstrategyviewstrategyinstance)
-  - [config.treatAllPropertiesAsMandatory](https://github.com/aurelia/validation/blob/master/doc/Intro.md#configtreatallpropertiesasmandatory)
-
 ## Dependencies
 
 
-* [aurelia-binding](https://github.com/aurelia/binding)
-* [aurelia-templating](https://github.com/aurelia/templating)
+* [aurelia-framework]
+
+
 
 ## Used By
 
