@@ -1,52 +1,94 @@
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-var changed = require('gulp-changed');
-var plumber = require('gulp-plumber');
 var to5 = require('gulp-babel');
-var sourcemaps = require('gulp-sourcemaps');
 var paths = require('../paths');
 var compilerOptions = require('../babel-options');
 var assign = Object.assign || require('object.assign');
-var notify = require("gulp-notify");
-var browserSync = require('browser-sync');
+var through2 = require('through2');
+var concat = require('gulp-concat');
+var insert = require('gulp-insert');
+var rename = require('gulp-rename');
+var tools = require('aurelia-tools');
+var del = require('del');
+var vinylPaths = require('vinyl-paths');
 
-// transpiles changed es6 files to SystemJS format
-// the plumber() call prevents 'pipe breaking' caused
-// by errors from other gulp plugins
-// https://www.npmjs.com/package/gulp-plumber
-gulp.task('build-system', function() {
+var jsName = paths.packageName + '.js';
+
+function removeDTSPlugin(options) {
+  var found = options.plugins.find(function(x){
+    return x instanceof Array;
+  });
+
+  var index = options.plugins.indexOf(found);
+  options.plugins.splice(index, 1);
+  return options;
+}
+
+gulp.task('build-index', function(){
+  var importsToAdd = [];
+
+  return gulp.src([
+    paths.root + '*.js',
+    paths.root + '**/*.js',
+   '!' + paths.root + 'index.js',
+   '!' + paths.root + 'resources/*.js'])
+    .pipe(through2.obj(function(file, enc, callback) {
+      file.contents = new Buffer(tools.extractImports(file.contents.toString("utf8"), importsToAdd));
+      this.push(file);
+      return callback();
+    }))
+    .pipe(concat(jsName))
+    .pipe(insert.transform(function(contents) {
+      return tools.createImportBlock(importsToAdd) + contents;
+    }))
+    .pipe(gulp.dest(paths.output));
+});
+
+gulp.task('build-es2015-temp', function () {
+    return gulp.src(paths.output + jsName)
+      .pipe(to5(assign({}, compilerOptions.commonjs())))
+      .pipe(gulp.dest(paths.output + 'temp'));
+});
+
+gulp.task('build-es2015', function () {
   return gulp.src(paths.source)
-    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
-    .pipe(changed(paths.output, {extension: '.js'}))
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(to5(assign({}, compilerOptions, {modules: 'system'})))
-    .pipe(sourcemaps.write({includeContent: true}))
-    .pipe(gulp.dest(paths.output));
+    .pipe(to5(assign({}, removeDTSPlugin(compilerOptions.es2015()))))
+    .pipe(gulp.dest(paths.output + 'es2015'));
 });
 
-// copies changed html files to the output directory
-gulp.task('build-html', function() {
-  return gulp.src(paths.html)
-    .pipe(changed(paths.output, {extension: '.html'}))
-    .pipe(gulp.dest(paths.output));
+gulp.task('build-commonjs', function () {
+  return gulp.src(paths.source)
+    .pipe(to5(assign({}, removeDTSPlugin(compilerOptions.commonjs()))))
+    .pipe(gulp.dest(paths.output + 'commonjs'));
 });
 
-// copies changed css files to the output directory
-gulp.task('build-css', function() {
-  return gulp.src(paths.css)
-    .pipe(changed(paths.output, {extension: '.css'}))
-    .pipe(gulp.dest(paths.output))
-    .pipe(browserSync.stream());
+gulp.task('build-amd', function () {
+  return gulp.src(paths.source)
+    .pipe(to5(assign({}, removeDTSPlugin(compilerOptions.amd()))))
+    .pipe(gulp.dest(paths.output + 'amd'));
 });
 
-// this task calls the clean task (located
-// in ./clean.js), then runs the build-system
-// and build-html tasks in parallel
-// https://www.npmjs.com/package/gulp-run-sequence
+gulp.task('build-system', function () {
+  return gulp.src(paths.source)
+    .pipe(to5(assign({}, removeDTSPlugin(compilerOptions.system()))))
+    .pipe(gulp.dest(paths.output + 'system'));
+});
+
+gulp.task('build-dts', function(){
+  return gulp.src(paths.output + paths.packageName + '.d.ts')
+      .pipe(rename(paths.packageName + '.d.ts'))
+      .pipe(gulp.dest(paths.output + 'es2015'))
+      .pipe(gulp.dest(paths.output + 'commonjs'))
+      .pipe(gulp.dest(paths.output + 'amd'))
+      .pipe(gulp.dest(paths.output + 'system'));
+});
+
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html', 'build-css'],
+    'build-index',
+    ['build-es2015-temp', 'build-es2015', 'build-commonjs', 'build-amd', 'build-system'],
+    'build-dts',
     callback
   );
 });

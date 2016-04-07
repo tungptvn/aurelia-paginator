@@ -1,4 +1,4 @@
-import {customElement,bindable,bindingMode,LogManager,BindingEngine,inject} from 'aurelia-framework';
+import {customElement, bindable, bindingMode ,LogManager, BindingEngine, inject} from 'aurelia-framework';
 
 @customElement('pagination')
 //@bindable({ name: 'pagination', attribute: 'data', defaultBindingMode: bindingMode.twoWay})
@@ -73,18 +73,4 @@ export class Pagination {
 
     //this.logger.info('total ,pages , itemPerPage', this.pages, this.total, this.itemPerPage );
   }
-}
-
-export class TestPagination{
-    config={total:100, current:5, size:10};
-    changeConfig(){
-      this.config.total=  Math.floor(Math.random() * (100 - 50)) + 50;
-
-    }
-    constructor() {
-      this.current=1;
-      this.total=1234;
-      this.itemperpage=15;
-    }
-
 }
