@@ -55,63 +55,67 @@ define(['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
   }
 
-  var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+  var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
-  var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElement)('pagination'), _dec2 = (0, _aureliaFramework.inject)(_aureliaFramework.BindingEngine), _dec3 = (0, _aureliaFramework.bindable)({ defaultBindingMode: _aureliaFramework.bindingMode.twoWay }), _dec(_class = _dec2(_class = (_class2 = function () {
+  var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElement)('pagination'), _dec2 = (0, _aureliaFramework.inject)(_aureliaFramework.BindingEngine), _dec3 = (0, _aureliaFramework.bindable)({
+    defaultBindingMode: _aureliaFramework.bindingMode.twoWay
+  }), _dec(_class = _dec2(_class = (_class2 = function () {
     function Pagination(bindingEngine) {
-      var _this = this;
-
       _classCallCheck(this, Pagination);
 
       _initDefineProp(this, 'currentPage', _descriptor, this);
 
       _initDefineProp(this, 'pages', _descriptor2, this);
 
-      _initDefineProp(this, 'pageSize', _descriptor3, this);
+      _initDefineProp(this, 'total', _descriptor3, this);
 
-      _initDefineProp(this, 'total', _descriptor4, this);
-
-      _initDefineProp(this, 'itemPerPage', _descriptor5, this);
+      _initDefineProp(this, 'itemPerPage', _descriptor4, this);
 
       this.numberOfVisiblePages = [];
       this.arrOfIndex = [];
 
       this.logger = _aureliaFramework.LogManager.getLogger('Pagination');
       this.bindingEngine = bindingEngine;
-      this.bindingEngine.propertyObserver(this, 'pageSize').subscribe(function (n, o) {
-        _this.logger.info('watch page Size', n);
-      });
-      this.init();
     }
 
     Pagination.prototype.currentPageChanged = function currentPageChanged(newValue) {
-      this.numberOfVisiblePages = this.arrOfIndex.slice(this.currentPage < this.itemPerPage / 2 ? 0 : this.currentPage - this.itemPerPage / 2, this.currentPage - this.itemPerPage / 2 < 0 ? this.itemPerPage : this.currentPage - this.itemPerPage / 2 + this.itemPerPage);
-      if (this.currentPage > this.pages - this.itemPerPage / 2) {
-        this.numberOfVisiblePages = this.arrOfIndex.slice(this.pages - this.itemPerPage, this.pages);
-      }
-      this.logger.info('arrOfIndex', this.arrOfIndex);
-
-      this.logger.info('numberOfVisiblePages', this.numberOfVisiblePages);
+      this.updatePages();
     };
 
-    Pagination.prototype.pageSizeChanged = function pageSizeChanged(newValue) {};
+    Pagination.prototype.updatePages = function updatePages() {
+      this.numberOfVisiblePages = [];
+      if (this.currentPage <= this.itemPerPage / 2) {
+        for (var i = 1; i <= this.itemPerPage; i++) {
+          this.numberOfVisiblePages.push(i);
+        }
+      } else if (this.currentPage >= this.itemPerPage / 2 && this.currentPage < this.pages - Math.floor(this.itemPerPage / 2)) {
+        for (var _i = this.currentPage - Math.floor(this.itemPerPage / 2); _i <= this.currentPage + Math.floor(this.itemPerPage / 2); _i++) {
+          this.numberOfVisiblePages.push(_i);
+        }
+      } else if (this.currentPage >= this.pages - Math.floor(this.itemPerPage / 2)) {
+        for (var _i2 = this.pages - this.itemPerPage; _i2 <= this.pages; _i2++) {
+          this.numberOfVisiblePages.push(_i2);
+        }
+      }
+    };
+
+    Pagination.prototype.pagesChanged = function pagesChanged(newValue) {
+      this.updatePages();
+    };
 
     Pagination.prototype.totalChanged = function totalChanged(newValue) {
-      this.currentPage = 1;
-      this.logger.info('totalChanged : ', newValue);
-      this.pages = Math.floor(newValue / this.itemPerPage + 1);
-      this.initIndex(this.pages);
+      if (+newValue > 10 && +newValue < parseInt(Math.pow(2, 53)) + 10) {
+        this.currentPage = 1;
+        this.logger.info('totalChanged : ', newValue);
+        this.pages = Math.floor(newValue / this.itemPerPage + 1);
+      }
     };
 
     Pagination.prototype.itemPerPageChanged = function itemPerPageChanged(n) {
-      this.currentPage = 1;
-      this.logger.info('itemPerPageChanged :', n);
-      this.pages = Math.floor(this.total / n + 1);
-      this.initIndex(this.pages);
-    };
-
-    Pagination.prototype.clicked = function clicked() {
-      alert('clicked');
+      if (+n > 5) {
+        this.currentPage = 1;
+        this.pages = Math.floor(this.total / n + 1);
+      }
     };
 
     Pagination.prototype.goToPage = function goToPage(id) {
@@ -120,23 +124,10 @@ define(['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
 
     Pagination.prototype.attached = function attached() {};
 
-    Pagination.prototype.initIndex = function initIndex(total) {
-      this.arrOfIndex = [];
-      for (var i = 1; i <= total; i++) {
-        this.arrOfIndex.push(i);
-      }
-      this.logger.info('numberOfVisiblePages', this.numberOfVisiblePages);
-    };
-
     Pagination.prototype.bind = function bind(context) {
-      this.logger.info('context', context);
-      this.initIndex(Math.ceil(context.total / context.itemperpage));
       this.numberOfVisiblePages = this.arrOfIndex.slice(0, context.itemperpage);
       this.pages = Math.ceil(context.total / context.itemperpage);
-    };
-
-    Pagination.prototype.init = function init() {
-      this.currentPage = 1;
+      this.logger.debug('paginator success!');
     };
 
     return Pagination;
@@ -150,17 +141,12 @@ define(['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
     initializer: function initializer() {
       return 1;
     }
-  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [_aureliaFramework.bindable], {
+  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'total', [_aureliaFramework.bindable], {
     enumerable: true,
     initializer: function initializer() {
       return 10;
     }
-  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'total', [_aureliaFramework.bindable], {
-    enumerable: true,
-    initializer: function initializer() {
-      return 10;
-    }
-  }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'itemPerPage', [_aureliaFramework.bindable], {
+  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'itemPerPage', [_aureliaFramework.bindable], {
     enumerable: true,
     initializer: function initializer() {
       return 10;

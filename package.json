@@ -23,17 +23,14 @@
   "license": "ISC",
   "jspm": {
     "registry": "npm",
-    "jspmPackage": true,
     "main": "index",
     "format": "amd",
     "directories": {
       "dist": "dist/amd"
     },
-    "peerDependencies": {
-      "aurelia-framework": "npm:aurelia-framework@^1.0.0-beta.1.1.0"
-    },
     "dependencies": {
-       "aurelia-framework": "npm:aurelia-framework@^1.0.0-beta.1.1.0"
+      "aurelia-framework": "^1.0.0-beta.1.1.0",
+      "tungptvn/aurelia-paginator": "github:tungptvn/aurelia-paginator@^0.1.0"
     },
     "devDependencies": {
       "aurelia-pal-browser": "^1.0.0-beta.1.1.2",
@@ -44,7 +41,7 @@
     }
   },
   "dependencies": {
-     "aurelia-framework": "^1.0.0-beta.1.1.0"
+    "aurelia-framework": "^1.0.0-beta.1.1.0"
   },
   "devDependencies": {
     "aurelia-tools": "^0.1.20",

@@ -1,4 +1,4 @@
-var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -45,73 +45,69 @@ function _initializerWarningHelper(descriptor, context) {
 
 import { customElement, bindable, bindingMode, LogManager, BindingEngine, inject } from 'aurelia-framework';
 
-export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(BindingEngine), _dec3 = bindable({ defaultBindingMode: bindingMode.twoWay }), _dec(_class = _dec2(_class = (_class2 = class Pagination {
+export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(BindingEngine), _dec3 = bindable({
+  defaultBindingMode: bindingMode.twoWay
+}), _dec(_class = _dec2(_class = (_class2 = class Pagination {
   constructor(bindingEngine) {
     _initDefineProp(this, 'currentPage', _descriptor, this);
 
     _initDefineProp(this, 'pages', _descriptor2, this);
 
-    _initDefineProp(this, 'pageSize', _descriptor3, this);
+    _initDefineProp(this, 'total', _descriptor3, this);
 
-    _initDefineProp(this, 'total', _descriptor4, this);
-
-    _initDefineProp(this, 'itemPerPage', _descriptor5, this);
+    _initDefineProp(this, 'itemPerPage', _descriptor4, this);
 
     this.numberOfVisiblePages = [];
     this.arrOfIndex = [];
 
     this.logger = LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
-    this.bindingEngine.propertyObserver(this, 'pageSize').subscribe((n, o) => {
-      this.logger.info('watch page Size', n);
-    });
-    this.init();
   }
   currentPageChanged(newValue) {
-    this.numberOfVisiblePages = this.arrOfIndex.slice(this.currentPage < this.itemPerPage / 2 ? 0 : this.currentPage - this.itemPerPage / 2, this.currentPage - this.itemPerPage / 2 < 0 ? this.itemPerPage : this.currentPage - this.itemPerPage / 2 + this.itemPerPage);
-    if (this.currentPage > this.pages - this.itemPerPage / 2) {
-      this.numberOfVisiblePages = this.arrOfIndex.slice(this.pages - this.itemPerPage, this.pages);
-    }
-    this.logger.info('arrOfIndex', this.arrOfIndex);
-
-    this.logger.info('numberOfVisiblePages', this.numberOfVisiblePages);
+    this.updatePages();
   }
-  pageSizeChanged(newValue) {}
+
+  updatePages() {
+    this.numberOfVisiblePages = [];
+    if (this.currentPage <= this.itemPerPage / 2) {
+      for (let i = 1; i <= this.itemPerPage; i++) {
+        this.numberOfVisiblePages.push(i);
+      }
+    } else if (this.currentPage >= this.itemPerPage / 2 && this.currentPage < this.pages - Math.floor(this.itemPerPage / 2)) {
+      for (let i = this.currentPage - Math.floor(this.itemPerPage / 2); i <= this.currentPage + Math.floor(this.itemPerPage / 2); i++) {
+        this.numberOfVisiblePages.push(i);
+      }
+    } else if (this.currentPage >= this.pages - Math.floor(this.itemPerPage / 2)) {
+      for (let i = this.pages - this.itemPerPage; i <= this.pages; i++) {
+        this.numberOfVisiblePages.push(i);
+      }
+    }
+  }
+  pagesChanged(newValue) {
+    this.updatePages();
+  }
   totalChanged(newValue) {
-    this.currentPage = 1;
-    this.logger.info('totalChanged : ', newValue);
-    this.pages = Math.floor(newValue / this.itemPerPage + 1);
-    this.initIndex(this.pages);
+    if (+newValue > 10 && +newValue < parseInt(Math.pow(2, 53)) + 10) {
+      this.currentPage = 1;
+      this.logger.info('totalChanged : ', newValue);
+      this.pages = Math.floor(newValue / this.itemPerPage + 1);
+    }
   }
   itemPerPageChanged(n) {
-    this.currentPage = 1;
-    this.logger.info('itemPerPageChanged :', n);
-    this.pages = Math.floor(this.total / n + 1);
-    this.initIndex(this.pages);
+    if (+n > 5) {
+      this.currentPage = 1;
+      this.pages = Math.floor(this.total / n + 1);
+    }
   }
-  clicked() {
-    alert('clicked');
-  }
+
   goToPage(id) {
     this.currentPage = id;
   }
   attached() {}
-  initIndex(total) {
-    this.arrOfIndex = [];
-    for (let i = 1; i <= total; i++) {
-      this.arrOfIndex.push(i);
-    }
-    this.logger.info('numberOfVisiblePages', this.numberOfVisiblePages);
-  }
   bind(context) {
-    this.logger.info('context', context);
-    this.initIndex(Math.ceil(context.total / context.itemperpage));
     this.numberOfVisiblePages = this.arrOfIndex.slice(0, context.itemperpage);
     this.pages = Math.ceil(context.total / context.itemperpage);
-  }
-
-  init() {
-    this.currentPage = 1;
+    this.logger.debug('paginator success!');
   }
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'currentPage', [_dec3, bindable], {
   enumerable: true,
@@ -123,17 +119,12 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
   initializer: function () {
     return 1;
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [bindable], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'total', [bindable], {
   enumerable: true,
   initializer: function () {
     return 10;
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'total', [bindable], {
-  enumerable: true,
-  initializer: function () {
-    return 10;
-  }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'itemPerPage', [bindable], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'itemPerPage', [bindable], {
   enumerable: true,
   initializer: function () {
     return 10;
