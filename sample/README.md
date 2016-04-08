@@ -37,4 +37,6 @@ To build the code, follow these steps.
   ```shell
   http-server -o -c-1
   ```
-![alt tag](img.PNG)
+<p>
+  <img src="https://raw.githubusercontent.com/tungptvn/aurelia-paginator/master/sample/img.PNG" width="100%"/>
+</p>
