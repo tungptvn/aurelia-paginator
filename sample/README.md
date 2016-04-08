@@ -45,4 +45,4 @@ To build the code, follow these steps.
   ```shell
   http-server -o -c-1
   ```
-![alt tag](http://oi65.tinypic.com/nqpn9k.jpg)
+![alt tag](img.PNG)
