@@ -69,7 +69,6 @@ Use in view
     <label for="">input item-per-page</label>
     <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage"> ${itemperpage}
   </div>
-</form>
 <pagination  total.bind="total" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
 ${current}
 
