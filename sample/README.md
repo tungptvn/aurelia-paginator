@@ -3,15 +3,7 @@
 This library is part of the [Aurelia](http://www.aurelia.io/) platform and contains the aurelia framework which brings together all the required core aurelia libraries into a ready-to-go application-building platform.
 ## Dependencies
 
-* [aurelia-dependency-injection](https://github.com/aurelia/dependency-injection)
-* [aurelia-binding](https://github.com/aurelia/binding)
-* [aurelia-metadata](https://github.com/aurelia/metadata)
-* [aurelia-templating](https://github.com/aurelia/templating)
-* [aurelia-loader](https://github.com/aurelia/loader)
-* [aurelia-task-queue](https://github.com/aurelia/task-queue)
-* [aurelia-logging](https://github.com/aurelia/logging)
-* [aurelia-path](https://github.com/aurelia/path)
-
+* [aurelia-framework](https://github.com/aurelia/framework)
 ## Used By
 
 * [aurelia-bootstrapper](https://github.com/aurelia/bootstrapper)
