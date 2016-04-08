@@ -85,8 +85,6 @@ Use in view
   </section>
 </template>
 
-${current}
-
 ```
 
 ##Documentation
