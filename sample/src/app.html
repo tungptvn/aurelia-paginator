@@ -1,0 +1,21 @@
+<template>
+  <require from="bootstrap/css/bootstrap.css"></require>
+  <div class="container">
+    <h2>My Table</h2>
+    <table class="table">
+      <thead>
+        <th>#</th>
+        <th>At</th>
+        <th>Name</th>
+      </thead>
+      <tbody ref="myData" items.bind="Data | take:(current-1)*itemperpage: current*itemperpage">
+        <tr repeat.for="item of myData.items">
+          <td>${item.Id}</td>
+          <td>${item.At}</td>
+          <td>${item.Name}</td>
+        </tr>
+      </tbody>
+    </table>
+   <pagination page-size.bind="pagesize" total.bind="total" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
+  </div>
+</template>

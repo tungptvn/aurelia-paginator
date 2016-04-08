@@ -72,11 +72,11 @@ Use in view
     <form action="">
       <div class="form-group">
         <label for=""></label>
-        <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage"> ${itemperpage}
+        <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage">
       </div>
       <div class="form-group">
         <label for=""></label>
-        <input type="text" class="form-control" id="" placeholder="" value.bind="total"> ${itemperpage}
+        <input type="text" class="form-control" id="" placeholder="" value.bind="total">
       </div>
     </form>
     <pagination page-size.bind="pagesize" total.bind="total" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
