@@ -12,6 +12,7 @@ declare module 'aurelia-paginator' {
     pages: any;
     total: any;
     itemPerPage: any;
+    pageSize: any;
     numberOfVisiblePages: any;
     arrOfIndex: any;
     constructor(bindingEngine: any);
@@ -20,6 +21,7 @@ declare module 'aurelia-paginator' {
     pagesChanged(newValue: any): any;
     totalChanged(newValue: any): any;
     itemPerPageChanged(n: any): any;
+    pageSizeChanged(n: any): any;
     goToPage(id: any): any;
     attached(): any;
     bind(context: any): any;

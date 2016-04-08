@@ -1,7 +1,7 @@
 'use strict';
 
 System.register(['aurelia-framework'], function (_export, _context) {
-  var customElement, bindable, bindingMode, LogManager, BindingEngine, inject, _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, Pagination;
+  var customElement, bindable, bindingMode, LogManager, BindingEngine, inject, _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, Pagination;
 
   function _initDefineProp(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -76,6 +76,8 @@ System.register(['aurelia-framework'], function (_export, _context) {
 
           _initDefineProp(this, 'itemPerPage', _descriptor4, this);
 
+          _initDefineProp(this, 'pageSize', _descriptor5, this);
+
           this.numberOfVisiblePages = [];
           this.arrOfIndex = [];
 
@@ -89,18 +91,22 @@ System.register(['aurelia-framework'], function (_export, _context) {
 
         Pagination.prototype.updatePages = function updatePages() {
           this.numberOfVisiblePages = [];
-          if (this.currentPage <= this.itemPerPage / 2) {
-            for (var i = 1; i <= this.itemPerPage; i++) {
+          if (this.currentPage <= this.pageSize / 2) {
+            for (var i = 1; i < this.pageSize; i++) {
               this.numberOfVisiblePages.push(i);
             }
-          } else if (this.currentPage >= this.itemPerPage / 2 && this.currentPage < this.pages - Math.floor(this.itemPerPage / 2)) {
-            for (var _i = this.currentPage - Math.floor(this.itemPerPage / 2); _i <= this.currentPage + Math.floor(this.itemPerPage / 2); _i++) {
+          } else if (this.currentPage >= this.pageSize / 2 && this.currentPage < this.pages - Math.floor(this.pageSize / 2)) {
+            for (var _i = this.currentPage - Math.floor(this.pageSize / 2); _i <= this.currentPage + Math.floor(this.pageSize / 2); _i++) {
               this.numberOfVisiblePages.push(_i);
             }
-          } else if (this.currentPage >= this.pages - Math.floor(this.itemPerPage / 2)) {
-            for (var _i2 = this.pages - this.itemPerPage; _i2 <= this.pages; _i2++) {
+          } else if (this.currentPage >= this.pages - Math.floor(this.pageSize / 2)) {
+            for (var _i2 = this.pages - this.pageSize; _i2 <= this.pages; _i2++) {
               this.numberOfVisiblePages.push(_i2);
             }
+          }
+
+          if (this.numberOfVisiblePages.length >= this.pages) {
+            this.numberOfVisiblePages = this.numberOfVisiblePages.slice(0, Math.floor(this.total / this.itemPerPage) + (this.total % this.itemPerPage == 0 ? 0 : 1));
           }
         };
 
@@ -109,7 +115,12 @@ System.register(['aurelia-framework'], function (_export, _context) {
         };
 
         Pagination.prototype.totalChanged = function totalChanged(newValue) {
-          if (+newValue > 10 && +newValue < parseInt(Math.pow(2, 53)) + 10) {
+          if (+newValue > 0 && +newValue <= this.itemPerPage) {
+            this.pages = 1;
+            this.current = 1;
+            this.updatePages();
+          }
+          if (+newValue > 0 && +newValue < parseInt(Math.pow(2, 53)) + 10) {
             this.currentPage = 1;
             this.logger.info('totalChanged : ', newValue);
             this.pages = Math.floor(newValue / this.itemPerPage + 1);
@@ -117,7 +128,14 @@ System.register(['aurelia-framework'], function (_export, _context) {
         };
 
         Pagination.prototype.itemPerPageChanged = function itemPerPageChanged(n) {
-          if (+n > 5) {
+          if (+n > 0) {
+            this.currentPage = 1;
+            this.pages = Math.floor(this.total / n + 1);
+          }
+        };
+
+        Pagination.prototype.pageSizeChanged = function pageSizeChanged(n) {
+          if (+n > 0) {
             this.currentPage = 1;
             this.pages = Math.floor(this.total / n + 1);
           }
@@ -130,8 +148,9 @@ System.register(['aurelia-framework'], function (_export, _context) {
         Pagination.prototype.attached = function attached() {};
 
         Pagination.prototype.bind = function bind(context) {
-          this.numberOfVisiblePages = this.arrOfIndex.slice(0, context.itemperpage);
-          this.pages = Math.ceil(context.total / context.itemperpage);
+          this.pages = Math.floor(context.total / context.itemperpage);
+          this.logger.info('context', context);
+          this.pageSize = context.pagesize;
           this.logger.debug('paginator success!');
         };
 
@@ -155,6 +174,11 @@ System.register(['aurelia-framework'], function (_export, _context) {
         enumerable: true,
         initializer: function initializer() {
           return 10;
+        }
+      }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [bindable], {
+        enumerable: true,
+        initializer: function initializer() {
+          return 8;
         }
       })), _class2)) || _class) || _class));
 
