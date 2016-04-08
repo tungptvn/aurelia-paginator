@@ -55,6 +55,7 @@ export class TestPagination{
       this.current=1;
       this.total=1234;
       this.itemperpage=15;
+      this.pagesize=6;
 
     }
 
@@ -65,11 +66,25 @@ Use in view
 
 ``` html
 
-  <div class="form-group">
-    <label for="">input item-per-page</label>
-    <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage"> ${itemperpage}
-  </div>
-<pagination  total.bind="total" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
+ <template>
+  <section>
+    <h2>test pagination</h2>
+    <form action="">
+      <div class="form-group">
+        <label for=""></label>
+        <input type="text" class="form-control" id="" placeholder="" value.bind="itemperpage"> ${itemperpage}
+      </div>
+      <div class="form-group">
+        <label for=""></label>
+        <input type="text" class="form-control" id="" placeholder="" value.bind="total"> ${itemperpage}
+      </div>
+    </form>
+    <pagination page-size.bind="pagesize" total.bind="total" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
+    ${current}
+
+  </section>
+</template>
+
 ${current}
 
 ```
