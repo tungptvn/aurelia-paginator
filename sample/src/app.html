@@ -2,20 +2,27 @@
   <require from="bootstrap/css/bootstrap.css"></require>
   <div class="container">
     <h2>My Table</h2>
+    <form class="" action="index.html" method="post">
+      <div class="form-group">
+        <label for="">Id</label>
+        <input type="text" class="form-control" id="" placeholder="" ref="myId">
+        <p class="help-block">Help text here.</p>
+      </div>
+    </form>
     <table class="table">
       <thead>
         <th>#</th>
         <th>At</th>
         <th>Name</th>
       </thead>
-      <tbody ref="myData" items.bind="Data | take:(current-1)*itemperpage: current*itemperpage">
-        <tr repeat.for="item of myData.items">
+      <tbody ref="myData" items.bind="Data | filterById:myId.value ">
+        <tr repeat.for="item of myData.items | take:(current-1)*itemperpage: current*itemperpage ">
           <td>${item.Id}</td>
           <td>${item.At}</td>
           <td>${item.Name}</td>
         </tr>
       </tbody>
     </table>
-   <pagination page-size.bind="pagesize" total.bind="Data.length" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
+   <pagination page-size.bind="pagesize" total.bind="myData.items.length" item-per-page.bind="itemperpage" current-page.bind="current"></pagination>
   </div>
 </template>
