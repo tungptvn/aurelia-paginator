@@ -14,7 +14,7 @@ declare module 'aurelia-paginator' {
     itemPerPage: any;
     pageSize: any;
     numberOfVisiblePages: any;
-    arrOfIndex: any;
+    defaulePageSize: any;
     constructor(bindingEngine: any);
     currentPageChanged(newValue: any): any;
     updatePages(): any;

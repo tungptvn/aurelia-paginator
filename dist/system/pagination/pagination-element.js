@@ -79,7 +79,7 @@ System.register(['aurelia-framework'], function (_export, _context) {
           _initDefineProp(this, 'pageSize', _descriptor5, this);
 
           this.numberOfVisiblePages = [];
-          this.arrOfIndex = [];
+          this.defaulePageSize = 8;
 
           this.logger = LogManager.getLogger('Pagination');
           this.bindingEngine = bindingEngine;
@@ -95,12 +95,12 @@ System.register(['aurelia-framework'], function (_export, _context) {
             for (var i = 1; i < this.pageSize; i++) {
               this.numberOfVisiblePages.push(i);
             }
-          } else if (this.currentPage >= this.pageSize / 2 && this.currentPage < this.pages - Math.floor(this.pageSize / 2)) {
+          } else if (this.currentPage >= this.pageSize / 2 && this.currentPage <= this.pages - Math.floor(this.pageSize / 2)) {
             for (var _i = this.currentPage - Math.floor(this.pageSize / 2); _i <= this.currentPage + Math.floor(this.pageSize / 2); _i++) {
               this.numberOfVisiblePages.push(_i);
             }
-          } else if (this.currentPage >= this.pages - Math.floor(this.pageSize / 2)) {
-            for (var _i2 = this.pages - this.pageSize; _i2 <= this.pages; _i2++) {
+          } else if (this.currentPage > this.pages - Math.floor(this.pageSize / 2)) {
+            for (var _i2 = this.pages - this.pageSize < 1 ? 1 : this.pages - this.pageSize; _i2 <= this.pages; _i2++) {
               this.numberOfVisiblePages.push(_i2);
             }
           }
@@ -111,6 +111,11 @@ System.register(['aurelia-framework'], function (_export, _context) {
         };
 
         Pagination.prototype.pagesChanged = function pagesChanged(newValue) {
+          if (newValue < this.pageSize) {
+            this.pageSize = newValue;
+          } else {
+            this.pageSize = this.defaulePageSize;
+          }
           this.updatePages();
         };
 
@@ -122,22 +127,20 @@ System.register(['aurelia-framework'], function (_export, _context) {
           }
           if (+newValue > 0 && +newValue < parseInt(Math.pow(2, 53)) + 10) {
             this.currentPage = 1;
-            this.logger.info('totalChanged : ', newValue);
-            this.pages = Math.floor(newValue / this.itemPerPage + 1);
+            this.pages = Math.floor(newValue / this.itemPerPage) + (newValue % this.itemPerPage == 0 ? 0 : 1);
           }
         };
 
         Pagination.prototype.itemPerPageChanged = function itemPerPageChanged(n) {
           if (+n > 0) {
             this.currentPage = 1;
-            this.pages = Math.floor(this.total / n + 1);
+            this.pages = Math.floor(this.total / n) + (this.total % n == 0 ? 0 : 1);
           }
         };
 
         Pagination.prototype.pageSizeChanged = function pageSizeChanged(n) {
           if (+n > 0) {
             this.currentPage = 1;
-            this.pages = Math.floor(this.total / n + 1);
           }
         };
 
@@ -148,8 +151,8 @@ System.register(['aurelia-framework'], function (_export, _context) {
         Pagination.prototype.attached = function attached() {};
 
         Pagination.prototype.bind = function bind(context) {
-          this.pages = Math.floor(context.total / context.itemperpage);
-          this.logger.info('context', context);
+          this.pages = Math.floor(context.total / context.itemperpage) + (context.total % context.itemperpage == 0 ? 0 : 1);
+          this.defaulePageSize = context.pagesize;
           this.pageSize = context.pagesize;
           this.logger.debug('paginator success!');
         };

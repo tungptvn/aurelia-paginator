@@ -12,7 +12,7 @@ export class Pagination {
   @bindable itemPerPage = 10;
   @bindable pageSize =8;
   numberOfVisiblePages = [];
-  arrOfIndex = [];
+  defaulePageSize=8;
   constructor(bindingEngine) {
     this.logger = LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
@@ -28,13 +28,13 @@ export class Pagination {
       }
 
     } else
-    if (this.currentPage >= this.pageSize / 2 && this.currentPage < this.pages - Math.floor(this.pageSize / 2)) {
+    if (this.currentPage >= this.pageSize / 2 && this.currentPage <= this.pages - Math.floor(this.pageSize / 2)) {
       for (let i = this.currentPage - Math.floor(this.pageSize / 2); i <= this.currentPage + Math.floor(this.pageSize / 2); i++) {
-        this.numberOfVisiblePages.push(i);
+          this.numberOfVisiblePages.push(i);
       }
     } else
-    if (this.currentPage >= this.pages - Math.floor(this.pageSize / 2)) {
-      for (let i = this.pages - this.pageSize; i <= this.pages; i++) {
+    if (this.currentPage > this.pages - Math.floor(this.pageSize / 2)) {
+      for (let i = ((this.pages - this.pageSize<1)?1:this.pages - this.pageSize) ; i <= this.pages; i++) {
         this.numberOfVisiblePages.push(i);
       }
     }
@@ -45,6 +45,11 @@ export class Pagination {
 
   }
   pagesChanged(newValue) {
+    if(newValue<this.pageSize){
+      this.pageSize=newValue;
+    }else{
+      this.pageSize=this.defaulePageSize;
+    }
     this.updatePages();
   }
 
@@ -56,22 +61,19 @@ export class Pagination {
     }
     if (+newValue > 0 && +newValue < parseInt(Math.pow(2, 53)) + 10) {
       this.currentPage = 1;
-      this.logger.info('totalChanged : ', newValue);
-      this.pages = Math.floor(newValue / this.itemPerPage + 1);
-
+      this.pages = Math.floor(newValue / this.itemPerPage )+ ((newValue % this.itemPerPage==0)?0:1);
     }
   }
   itemPerPageChanged(n) {
     if (+n > 0) {
       this.currentPage = 1;
-      this.pages = Math.floor(this.total / n + 1);
+      this.pages = Math.floor(this.total / n)+ ((this.total % n==0)?0:1);
     }
 
   }
   pageSizeChanged(n) {
     if (+n > 0) {
       this.currentPage = 1;
-      this.pages = Math.floor(this.total / n + 1);
     }
 
   }
@@ -83,9 +85,9 @@ export class Pagination {
 
   }
   bind(context) {
-    this.pages = Math.floor( context.total / context.itemperpage ) ;
-    this.logger.info('context', context);
-    this.pageSize= context.pagesize;
+    this.pages = Math.floor( context.total / context.itemperpage )+ ((context.total % context.itemperpage==0)?0:1) ;
+    this.defaulePageSize= context.pagesize;
+    this.pageSize=context.pagesize;
     this.logger.debug('paginator success!');
   }
 }
