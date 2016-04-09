@@ -10,7 +10,7 @@ export class App {
   }
   initData(){
     this.Data=[];
-    for (var i = 0; i < 1234; i++) {
+    for (var i = 1; i <= 1234; i++) {
       this.Data.push({Id:i, At:`at : + ${new Date()}`, Name:'Tung Pt'});
     }
     this.CallNext();
@@ -18,7 +18,7 @@ export class App {
   CallNext(){
     // config paginator
     this.total = this.Data.length;
-    this.pagesize=6;
+    this.pagesize=8;
     this.itemperpage=10;
     this.current=1;
   }
