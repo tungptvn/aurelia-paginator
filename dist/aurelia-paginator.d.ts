@@ -26,9 +26,4 @@ declare module 'aurelia-paginator' {
     attached(): any;
     bind(context: any): any;
   }
-  export class TestPagination {
-    config: any;
-    changeConfig(): any;
-    constructor();
-  }
 }

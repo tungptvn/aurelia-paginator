@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TestPagination = exports.Pagination = undefined;
+exports.Pagination = undefined;
 
 var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
@@ -173,21 +173,3 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
     return 8;
   }
 })), _class2)) || _class) || _class);
-
-var TestPagination = exports.TestPagination = function () {
-  TestPagination.prototype.changeConfig = function changeConfig() {
-    this.config.total = Math.floor(Math.random() * (100 - 50)) + 50;
-  };
-
-  function TestPagination() {
-    _classCallCheck(this, TestPagination);
-
-    this.config = { total: 100, current: 5, size: 10 };
-
-    this.current = 1;
-    this.total = 1234;
-    this.itemperpage = 15;
-  }
-
-  return TestPagination;
-}();
