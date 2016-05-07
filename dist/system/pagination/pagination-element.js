@@ -80,6 +80,7 @@ System.register(['aurelia-framework'], function (_export, _context) {
 
           this.numberOfVisiblePages = [];
           this.defaulePageSize = 8;
+          this.canBind = true;
 
           this.logger = LogManager.getLogger('Pagination');
           this.bindingEngine = bindingEngine;
@@ -120,6 +121,11 @@ System.register(['aurelia-framework'], function (_export, _context) {
         };
 
         Pagination.prototype.totalChanged = function totalChanged(newValue) {
+          if (+newValue == 0 || !newValue) {
+            this.canBind = false;
+          } else {
+            this.canBind = true;
+          }
           if (+newValue > 0 && +newValue <= this.itemPerPage) {
             this.pages = 1;
             this.current = 1;

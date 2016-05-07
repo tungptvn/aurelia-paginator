@@ -61,6 +61,7 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
 
     this.numberOfVisiblePages = [];
     this.defaulePageSize = 8;
+    this.canBind = true;
 
     this.logger = LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
@@ -99,6 +100,11 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
   }
 
   totalChanged(newValue) {
+    if (+newValue == 0 || !newValue) {
+      this.canBind = false;
+    } else {
+      this.canBind = true;
+    }
     if (+newValue > 0 && +newValue <= this.itemPerPage) {
       this.pages = 1;
       this.current = 1;

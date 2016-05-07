@@ -72,6 +72,7 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
 
     this.numberOfVisiblePages = [];
     this.defaulePageSize = 8;
+    this.canBind = true;
 
     this.logger = _aureliaFramework.LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
@@ -112,6 +113,11 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
   };
 
   Pagination.prototype.totalChanged = function totalChanged(newValue) {
+    if (+newValue == 0 || !newValue) {
+      this.canBind = false;
+    } else {
+      this.canBind = true;
+    }
     if (+newValue > 0 && +newValue <= this.itemPerPage) {
       this.pages = 1;
       this.current = 1;
