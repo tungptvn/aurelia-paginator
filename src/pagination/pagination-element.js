@@ -20,6 +20,7 @@ export class Pagination {
   @bindable pageSize =8;
   numberOfVisiblePages = [];
   defaulePageSize=8;
+  canBind=true;
   constructor(bindingEngine) {
     this.logger = LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
@@ -61,6 +62,12 @@ export class Pagination {
   }
 
   totalChanged(newValue) {
+    if(+newValue==0||!newValue){
+      this.canBind=false;
+    }
+    else{
+      this.canBind=true;
+    }
     if(+newValue>0&& +newValue<=this.itemPerPage){
       this.pages=1;
       this.current=1;
