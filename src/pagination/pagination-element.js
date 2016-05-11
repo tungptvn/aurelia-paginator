@@ -20,10 +20,11 @@ export class Pagination {
   @bindable pageSize =8;
   numberOfVisiblePages = [];
   defaulePageSize=8;
-  canBind=true;
+  @bindable canBind=true;
   constructor(bindingEngine) {
     this.logger = LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
+
   }
   currentPageChanged(newValue) {
     this.updatePages();  }
@@ -31,23 +32,27 @@ export class Pagination {
   updatePages() {
     this.numberOfVisiblePages = [];
     if (this.currentPage <= this.pageSize / 2) {
+        console.log('this.numberOfVisiblePages 1',this.numberOfVisiblePages);
       for (let i = 1; i < this.pageSize; i++) {
         this.numberOfVisiblePages.push(i);
       }
 
     } else
     if (this.currentPage >= this.pageSize / 2 && this.currentPage <= this.pages - Math.floor(this.pageSize / 2)) {
+        console.log('this.numberOfVisiblePages 2',this.numberOfVisiblePages);
       for (let i = this.currentPage - Math.floor(this.pageSize / 2); i <= this.currentPage + Math.floor(this.pageSize / 2); i++) {
           this.numberOfVisiblePages.push(i);
       }
     } else
     if (this.currentPage > this.pages - Math.floor(this.pageSize / 2)) {
+      console.log('this.numberOfVisiblePages 3',this.numberOfVisiblePages);
       for (let i = ((this.pages - this.pageSize<1)?1:this.pages - this.pageSize) ; i <= this.pages; i++) {
         this.numberOfVisiblePages.push(i);
       }
     }
 
     if(this.numberOfVisiblePages.length>= this.pages){
+      console.log('this.numberOfVisiblePages 4',this.numberOfVisiblePages);
       this.numberOfVisiblePages = this.numberOfVisiblePages.slice(0, Math.floor(this.total/this.itemPerPage) + ((this.total%this.itemPerPage==0)?0:1));
     }
 
@@ -103,5 +108,6 @@ export class Pagination {
     this.defaulePageSize= context.pagesize;
     this.pageSize=context.pagesize;
     this.logger.debug('paginator success!');
+    this.updatePages();
   }
 }
