@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Pagination = undefined;
 
-var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
 var _aureliaFramework = require('aurelia-framework');
 
@@ -72,7 +72,8 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
 
     this.numberOfVisiblePages = [];
     this.defaulePageSize = 8;
-    this.canBind = true;
+
+    _initDefineProp(this, 'canBind', _descriptor6, this);
 
     this.logger = _aureliaFramework.LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
@@ -85,20 +86,24 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
   Pagination.prototype.updatePages = function updatePages() {
     this.numberOfVisiblePages = [];
     if (this.currentPage <= this.pageSize / 2) {
+      console.log('this.numberOfVisiblePages 1', this.numberOfVisiblePages);
       for (var i = 1; i < this.pageSize; i++) {
         this.numberOfVisiblePages.push(i);
       }
     } else if (this.currentPage >= this.pageSize / 2 && this.currentPage <= this.pages - Math.floor(this.pageSize / 2)) {
+      console.log('this.numberOfVisiblePages 2', this.numberOfVisiblePages);
       for (var _i = this.currentPage - Math.floor(this.pageSize / 2); _i <= this.currentPage + Math.floor(this.pageSize / 2); _i++) {
         this.numberOfVisiblePages.push(_i);
       }
     } else if (this.currentPage > this.pages - Math.floor(this.pageSize / 2)) {
+      console.log('this.numberOfVisiblePages 3', this.numberOfVisiblePages);
       for (var _i2 = this.pages - this.pageSize < 1 ? 1 : this.pages - this.pageSize; _i2 <= this.pages; _i2++) {
         this.numberOfVisiblePages.push(_i2);
       }
     }
 
     if (this.numberOfVisiblePages.length >= this.pages) {
+      console.log('this.numberOfVisiblePages 4', this.numberOfVisiblePages);
       this.numberOfVisiblePages = this.numberOfVisiblePages.slice(0, Math.floor(this.total / this.itemPerPage) + (this.total % this.itemPerPage == 0 ? 0 : 1));
     }
   };
@@ -153,6 +158,7 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
     this.defaulePageSize = context.pagesize;
     this.pageSize = context.pagesize;
     this.logger.debug('paginator success!');
+    this.updatePages();
   };
 
   return Pagination;
@@ -180,5 +186,10 @@ var Pagination = exports.Pagination = (_dec = (0, _aureliaFramework.customElemen
   enumerable: true,
   initializer: function initializer() {
     return 8;
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'canBind', [_aureliaFramework.bindable], {
+  enumerable: true,
+  initializer: function initializer() {
+    return true;
   }
 })), _class2)) || _class) || _class);

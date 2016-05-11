@@ -1,4 +1,4 @@
-var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -61,7 +61,8 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
 
     this.numberOfVisiblePages = [];
     this.defaulePageSize = 8;
-    this.canBind = true;
+
+    _initDefineProp(this, 'canBind', _descriptor6, this);
 
     this.logger = LogManager.getLogger('Pagination');
     this.bindingEngine = bindingEngine;
@@ -73,20 +74,24 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
   updatePages() {
     this.numberOfVisiblePages = [];
     if (this.currentPage <= this.pageSize / 2) {
+      console.log('this.numberOfVisiblePages 1', this.numberOfVisiblePages);
       for (let i = 1; i < this.pageSize; i++) {
         this.numberOfVisiblePages.push(i);
       }
     } else if (this.currentPage >= this.pageSize / 2 && this.currentPage <= this.pages - Math.floor(this.pageSize / 2)) {
+      console.log('this.numberOfVisiblePages 2', this.numberOfVisiblePages);
       for (let i = this.currentPage - Math.floor(this.pageSize / 2); i <= this.currentPage + Math.floor(this.pageSize / 2); i++) {
         this.numberOfVisiblePages.push(i);
       }
     } else if (this.currentPage > this.pages - Math.floor(this.pageSize / 2)) {
+      console.log('this.numberOfVisiblePages 3', this.numberOfVisiblePages);
       for (let i = this.pages - this.pageSize < 1 ? 1 : this.pages - this.pageSize; i <= this.pages; i++) {
         this.numberOfVisiblePages.push(i);
       }
     }
 
     if (this.numberOfVisiblePages.length >= this.pages) {
+      console.log('this.numberOfVisiblePages 4', this.numberOfVisiblePages);
       this.numberOfVisiblePages = this.numberOfVisiblePages.slice(0, Math.floor(this.total / this.itemPerPage) + (this.total % this.itemPerPage == 0 ? 0 : 1));
     }
   }
@@ -136,6 +141,7 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
     this.defaulePageSize = context.pagesize;
     this.pageSize = context.pagesize;
     this.logger.debug('paginator success!');
+    this.updatePages();
   }
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'currentPage', [_dec3, bindable], {
   enumerable: true,
@@ -161,5 +167,10 @@ export let Pagination = (_dec = customElement('pagination'), _dec2 = inject(Bind
   enumerable: true,
   initializer: function () {
     return 8;
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'canBind', [bindable], {
+  enumerable: true,
+  initializer: function () {
+    return true;
   }
 })), _class2)) || _class) || _class);
